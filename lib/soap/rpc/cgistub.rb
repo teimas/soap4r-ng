@@ -92,6 +92,10 @@ class CGIStub < Logger::Application
       }
     end
 
+    def query_string
+      @request.env['QUERY_STRING']
+    end
+
     def cookies
       if cookie = @request.env['HTTP_Cookie'] || @request.env['Cookie']
         [WEBrick::Cookie.parse(cookie)]

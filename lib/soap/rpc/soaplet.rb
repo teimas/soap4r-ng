@@ -138,6 +138,9 @@ private
   end
 
   def setup_req(conn_data, req)
+    # En caso de no existir el usuario, se toma la query string en su lugar y se encapsula en la etiqueta correspondiente
+    rg = Regexp.new('</wsse:UsernameToken>')
+    req.body.sub!(rg, "\\0<QueryString>#{req.query_string}</QueryString>")
     conn_data.receive_string = req.body
     conn_data.receive_contenttype = req['content-type']
     conn_data.soapaction = parse_soapaction(req.meta_vars['HTTP_SOAPACTION'])
